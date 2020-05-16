@@ -1,0 +1,4 @@
+docker build -t local_lambda .
+docker run -v $(pwd):/app local_lambda python function.py
+docker build -t deployment -f Dockerfile.deployment_artifact .
+docker run -v $(pwd):/app/artifact deployment

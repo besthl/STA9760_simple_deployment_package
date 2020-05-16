@@ -1,0 +1,14 @@
+FROM lambci/lambda:build-python3.8
+
+WORKDIR /app
+
+COPY . .
+
+# This creates the deployment package
+RUN pip install --target /app/package -r requirements.txt
+RUN cd /app/package && zip -r9 /app/lambda.zip . && cd /app
+
+RUN chmod u=rwx,go=r *.py
+RUN zip -g /app/lambda.zip *.py
+
+CMD cp /app/lambda.zip /app/artifact
